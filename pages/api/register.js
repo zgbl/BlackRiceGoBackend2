@@ -2,13 +2,7 @@
 import dbConnect from '../../lib/mongodb';
 import User from '../../models/User';
 import bcrypt from 'bcryptjs';
-import Cors from 'cors';
-
-/*// 初始化 CORS 中间件
-const cors = Cors({
-    origin: '*', // 临时允许所有来源
-    methods: ['GET', 'POST'],
-});  */
+//import Cors from 'cors';
 
 
 // Custom CORS middleware to handle preflight requests and set headers
@@ -26,21 +20,10 @@ const allowCors = (fn) => async (req, res) => {
     return await fn(req, res);
   };
   
-// 中间件处理函数
-function runMiddleware(req, res, fn) {
-    return new Promise((resolve, reject) => {
-      fn(req, res, (result) => {
-        if (result instanceof Error) {
-          return reject(result);
-        }
-        return resolve(result);
-      });
-    });
-  }
 
-export default async function handler(req, res) {
+//export default async function handler(req, res) {
+export default allowCors(async function handler(req, res) {
   await dbConnect();
-  await runMiddleware(req, res, cors);
 
   if (req.method === 'GET') {
     // 处理 GET 请求
@@ -80,4 +63,4 @@ export default async function handler(req, res) {
   // 对其他 HTTP 方法返回 405 错误
   res.setHeader('Allow', ['GET', 'POST']);
   return res.status(405).end(`Method ${req.method} Not Allowed`);
-}
+});

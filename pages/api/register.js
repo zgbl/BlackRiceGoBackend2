@@ -1,3 +1,5 @@
+//This project use Next.js + Vercel + serverless RESTFUL Stateless API
+
 // pages/api/register.js
 import dbConnect from '../../lib/mongodb';
 import User from '../../models/User';

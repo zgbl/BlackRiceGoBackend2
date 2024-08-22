@@ -58,6 +58,7 @@ export default allowCors(async function handler(req, res) {
       const newUser = await User.create({ username, email, password: hashedPassword });
       return res.status(201).json({ message: 'User created', user: newUser });
     } catch (error) {
+      console.error('Error creating user:', error); // Log error for debugging
       return res.status(500).json({ message: 'Error creating user', error });
     }
   } 

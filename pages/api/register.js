@@ -3,11 +3,28 @@ import dbConnect from '../../lib/mongodb';
 import User from '../../models/User';
 import bcrypt from 'bcryptjs';
 import Cors from 'cors';
-// 初始化 CORS 中间件
+
+/*// 初始化 CORS 中间件
 const cors = Cors({
     origin: '*', // 临时允许所有来源
     methods: ['GET', 'POST'],
-  });
+});  */
+
+
+// Custom CORS middleware to handle preflight requests and set headers
+const allowCors = (fn) => async (req, res) => {
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader('Access-Control-Allow-Origin', '*'); // Allow all origins
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS'); // Allow specific methods
+    res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+  
+    if (req.method === 'OPTIONS') {
+      res.status(200).end(); // Respond to preflight request
+      return;
+    }
+  
+    return await fn(req, res);
+  };
   
 // 中间件处理函数
 function runMiddleware(req, res, fn) {

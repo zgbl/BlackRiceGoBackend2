@@ -1,7 +1,7 @@
 
 const allowCors = (fn) => async (req, res) => {
   res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', '*'); // Allow all origins
+  res.setHeader('Access-Control-Allow-Origin', 'http://weiqi.blackrice.pro'); // Set to your frontend origin
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS'); // Allow specific methods
   res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
 
@@ -13,7 +13,7 @@ const allowCors = (fn) => async (req, res) => {
   return await fn(req, res);
 };
 
-export default function handler(req, res) {
+/*export default function handler(req, res) {
     if (req.method === 'GET') {
       req.logout((err) => {
         if (err) {
@@ -26,5 +26,17 @@ export default function handler(req, res) {
       res.setHeader('Allow', ['GET']);
       res.status(405).end(`Method ${req.method} Not Allowed`);
     }
-  }
+  } */
   
+  export default function handler(req, res) {
+    if (req.method === 'GET') {
+      // 清除 session cookie
+      res.setHeader('Set-Cookie', [
+        'session=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly'
+      ]);
+      res.json({ message: 'Logged out successfully' });
+    } else {
+      res.setHeader('Allow', ['GET']);
+      res.status(405).end(`Method ${req.method} Not Allowed`);
+    }
+  }

@@ -1,6 +1,6 @@
 // models/Tournament.js
 import mongoose from 'mongoose';
-import allowCors from './withCors';
+
 
 const tournamentSchema = new mongoose.Schema({
   name: {

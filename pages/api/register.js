@@ -5,6 +5,7 @@ import dbConnect from '../../lib/mongodb';
 import User from '../../models/User';
 import bcrypt from 'bcryptjs';
 //import Cors from 'cors';
+import jwt from 'jsonwebtoken'; // 需要安装jsonwebtoken库
 
 
 // Custom CORS middleware to handle preflight requests and set headers
@@ -24,7 +25,7 @@ const allowCors = (fn) => async (req, res) => {
   
 
 //export default async function handler(req, res) {
-export default allowCors(async function handler(req, res) {
+/*export default allowCors(async function handler(req, res) {
   await dbConnect();
 
   if (req.method === 'GET') {
@@ -64,6 +65,36 @@ export default allowCors(async function handler(req, res) {
   } 
 
   // 对其他 HTTP 方法返回 405 错误
+  res.setHeader('Allow', ['GET', 'POST']);
+  return res.status(405).end(`Method ${req.method} Not Allowed`);
+});  */
+
+export default allowCors(async function handler(req, res) {
+  await dbConnect();
+
+  if (req.method === 'POST') {
+    const { username, email, password } = req.body;
+
+    if (!username || !email || !password) {
+      return res.status(400).json({ message: 'Missing fields' });
+    }
+
+    try {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const newUser = await User.create({ username, email, password: hashedPassword });
+
+      // 生成JWT
+      const token = jwt.sign({ id: newUser._id, username: newUser.username }, 'your_jwt_secret', {
+        expiresIn: '1h',
+      });
+
+      return res.status(201).json({ message: 'User created', token }); // 返回JWT
+    } catch (error) {
+      console.error('Error creating user:', error);
+      return res.status(500).json({ message: 'Error creating user', error });
+    }
+  }
+
   res.setHeader('Allow', ['GET', 'POST']);
   return res.status(405).end(`Method ${req.method} Not Allowed`);
 });

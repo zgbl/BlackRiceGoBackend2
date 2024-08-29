@@ -21,7 +21,8 @@ const tournamentSchema = new mongoose.Schema({
   format: {
     type: String,
     required: true,
-    enum: ['单循环', '双循环', '瑞士制', '淘汰赛', '其他'],
+    //enum: ['单循环', '双循环', '瑞士制', '淘汰赛', '其他'],
+    enum: ['Single Round Robin', 'Double Round Robin', 'Swiss System', 'Knockout', 'Other'],
   },
   max_participants: {
     type: Number,

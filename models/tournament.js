@@ -1,21 +1,36 @@
 // models/Tournament.js
 import mongoose from 'mongoose';
 
-
 const tournamentSchema = new mongoose.Schema({
-  name: {
+  TournamentName: {
     type: String,
     required: true,
   },
-  description: String,
-  participants: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-  }],
-  rounds: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Round',
-  }],
+  TournamentStartDate: {
+    type: Date,
+    required: true,
+  },
+  location: {
+    type: String,
+    required: true,
+  },
+  entry_conditions: {
+    type: String,
+    required: true,
+  },
+  format: {
+    type: String,
+    required: true,
+    enum: ['单循环', '双循环', '瑞士制', '淘汰赛', '其他'],
+  },
+  max_participants: {
+    type: Number,
+    required: true,
+  },
+  registration_deadline: {
+    type: Date,
+    required: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

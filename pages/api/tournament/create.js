@@ -3,7 +3,8 @@ import dbConnect from '../../../lib/mongodb.js';
 import Tournament from '../../../models/tournament';
 import allowCors from '../withCors.js';
 
-export default async function handler(req, res) {
+
+async function handler(req, res) {
   await dbConnect();
 
   if (req.method === 'POST') {
@@ -18,3 +19,6 @@ export default async function handler(req, res) {
     res.status(405).json({ success: false, message: 'Method not allowed' });
   }
 }
+
+export default allowCors(handler);
+

@@ -16,7 +16,7 @@ const tournamentSchema = new mongoose.Schema({
   },
   entry_conditions: {
     type: String,
-    required: true,
+    required: false,
   },
   format: {
     type: String,
@@ -25,11 +25,11 @@ const tournamentSchema = new mongoose.Schema({
   },
   max_participants: {
     type: Number,
-    required: true,
+    required: false,
   },
   registration_deadline: {
     type: Date,
-    required: true,
+    required: false,
   },
   createdAt: {
     type: Date,

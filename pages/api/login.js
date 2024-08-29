@@ -1,6 +1,7 @@
 // pages/api/login.js
 import dbConnect from '../../lib/mongodb';
 import User from '../../models/User';
+import Cors from 'cors';
 import bcrypt from 'bcryptjs';
 
 // Custom CORS middleware to handle preflight requests and set headers

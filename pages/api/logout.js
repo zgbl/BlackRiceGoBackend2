@@ -1,7 +1,8 @@
-import Cors from 'cors';
+//import Cors from 'cors';
+import allowCors from './withCors';
 //import initMiddleware from '../../lib/init-middleware';
 
-const allowCors = (fn) => async (req, res) => {
+/*const allowCors = (fn) => async (req, res) => {
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', 'http://weiqi.blackrice.pro');
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
@@ -13,7 +14,7 @@ const allowCors = (fn) => async (req, res) => {
   }
 
   return await fn(req, res);
-};
+}; */
 
 /*export default function handler(req, res) {
     if (req.method === 'GET') {

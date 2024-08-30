@@ -38,6 +38,13 @@ const tournamentSchema = new mongoose.Schema({
   },
 });
 
-const Tournament = mongoose.models.Tournament || mongoose.model('Tournament', tournamentSchema);
+//const Tournament = mongoose.models.Tournament || mongoose.model('Tournament', tournamentSchema);
 
-export default Tournament;
+const TournamentSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  location: { type: String, required: true },
+  date: { type: Date, required: true }
+});
+
+//export default Tournament;
+export default mongoose.models.Tournament || mongoose.model('Tournament', TournamentSchema);
